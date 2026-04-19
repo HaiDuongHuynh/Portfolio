@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const education = [
   {
@@ -99,6 +99,8 @@ function WindowBar({ label }) {
 }
 
 export default function App() {
+  const [emailStatus, setEmailStatus] = useState("");
+
   useEffect(() => {
     const revealItems = document.querySelectorAll(".window, .project-card");
 
@@ -122,6 +124,26 @@ export default function App() {
 
     return () => observer.disconnect();
   }, []);
+
+  function handleEmailClick(event) {
+    event.preventDefault();
+
+    window.location.href = "mailto:haiduonghuynhcs@gmail.com";
+
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard
+        .writeText("haiduonghuynhcs@gmail.com")
+        .then(() => {
+          setEmailStatus("If your mail app did not open, the email address has been copied.");
+        })
+        .catch(() => {
+          setEmailStatus("If your mail app did not open, use haiduonghuynhcs@gmail.com.");
+        });
+      return;
+    }
+
+    setEmailStatus("If your mail app did not open, use haiduonghuynhcs@gmail.com.");
+  }
 
   return (
     <>
@@ -270,11 +292,18 @@ export default function App() {
                 </p>
               </div>
               <div className="cta-row">
-                <a className="button primary" href="mailto:haiduonghuynhcs@gmail.com">Email Me</a>
+                <a
+                  className="button primary"
+                  href="mailto:haiduonghuynhcs@gmail.com"
+                  onClick={handleEmailClick}
+                >
+                  Email Me
+                </a>
                 <a className="button" href="https://github.com/HaiDuongHuynh" target="_blank" rel="noreferrer">
                   GitHub Profile
                 </a>
               </div>
+              {emailStatus ? <p className="helper-text">{emailStatus}</p> : null}
             </div>
           </section>
         </main>

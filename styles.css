@@ -370,6 +370,12 @@ a {
   justify-content: space-between;
 }
 
+.helper-text {
+  margin: 14px 0 0;
+  color: var(--muted);
+  max-width: 36rem;
+}
+
 .reveal {
   opacity: 0;
   transform: translateY(18px);
